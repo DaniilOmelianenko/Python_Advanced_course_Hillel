@@ -10,22 +10,29 @@
 #     assert parse('http://example.com/?') == {}
 #     assert parse('http://example.com/?name=Dima') == {'name': 'Dima'}
 
-url = 'https://example.com/path/to/page?name=ferret&color=purple'
+url = 'http://example.com/'
 first_slice = (url.partition('?'))
-print(first_slice)
-print(first_slice[-1])
-print((str(first_slice[-1])).partition('?'))
-print(url[-1])
-if (url[-1]) == '?' or (url[-1]) == '&':
-    query_string = str((url.partition('?'))[-1])
-else:
-    query_string = str((url.partition('?'))[-2])
-print(query_string)
-query_list = query_string.split('&')
-print(query_list)
-final_dict = {}
-for i in query_list:
-    temp_list = (str(i)).split('=')
-    print(temp_list)
-    #final_dict.setdefault(temp_list[0], temp_list[1])
-print(final_dict)
+query_temp_list = []
+for i in first_slice:
+    if '=' in i:
+        query_temp_list.append(i)
+        print(query_temp_list)
+
+# print(first_slice[-1])
+# if first_slice[-1] == '':
+#     print('empty')
+# print((str(first_slice[-1])).partition('?'))
+# print(url[-1])
+# if (url[-1]) == '?' or (url[-1]) == '&':
+#     query_string = str((url.partition('?'))[-1])
+# else:
+#     query_string = str((url.partition('?'))[-2])
+# print(query_string)
+# query_list = query_string.split('&')
+# print(query_list)
+# final_dict = {}
+# for i in query_list:
+#     temp_list = (str(i)).split('=')
+#     print(temp_list)
+#     #final_dict.setdefault(temp_list[0], temp_list[1])
+# print(final_dict)
