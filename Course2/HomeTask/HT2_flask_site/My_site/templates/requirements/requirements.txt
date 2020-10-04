@@ -1,0 +1,15 @@
+certifi==2020.6.20<br>
+chardet==3.0.4<br>
+click==7.1.2<br>
+Flask==1.1.2<br>
+idna==2.10<br>
+itsdangerous==1.1.0<br>
+Jinja2==2.11.2<br>
+MarkupSafe==1.1.1<br>
+requests==2.24.0<br>
+urllib3==1.25.10<br>
+Werkzeug==1.0.1<br>
+<h2>{{some_var}}<h2>
+{% for x in range(5) %}
+<h2>{{user['name']}}, {{user['age']}} years old<h2>
+{% endfor %}
