@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    <form action="/"><button>< HOME</button></form>
+    <button value="Refresh Page" onClick="window.location.href=window.location.href">Refresh Page</button>
+</h1>
+<table border="1">
+   <tr>
+        <th align="left">Number of astronauts in space now:     </th>
+        <th align="left">{{   number_of_astros   }}</th>
+   </tr>
+</table>
+<table border="5">
+    <tr>
+        <th>NAME</th>
+        <th>CRAFT</th>
+    </tr>
+{% for astro in astros_in_space %}
+    <tr>
+        <th align="left"> {{ astro["name"] }} </th>
+        <th> {{ astro["craft"] }} </th>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
