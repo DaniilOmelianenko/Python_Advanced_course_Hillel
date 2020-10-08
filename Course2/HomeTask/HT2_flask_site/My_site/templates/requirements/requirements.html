@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requirements</title>
+</head>
+<body>
+<h1>
+    <form action="/"><button>< HOME</button></form>
+</h1>
+<table border="3">
+{% for requirement_str in requirements_list %}
+   <tr>
+        <th align="left"> {{ requirement_str }} </th>
+   </tr>
+{% endfor %}
+</table>
+</body>
+</html>
