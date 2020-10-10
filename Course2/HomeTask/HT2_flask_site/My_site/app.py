@@ -13,16 +13,16 @@ def home():
 
 @app.route('/requirements/')
 def requirements():
-    with open('templates/requirements/requirements.txt') as required:
+    with open('requirements.txt') as required:
         requirements_list = required.read().splitlines()
         return render_template('/requirements/requirements.html', requirements_list=requirements_list)
 
 
-@app.route('/users/', methods=['POST', 'GET'])
+@app.route('/users/', methods=['GET', 'POST'])
 def generate_users():
     fake = Faker()
     users = {}
-    number_of_users = 0
+    number_of_users = 100
     if request.method == 'POST' and request.form['usr_num'].isdigit():
         number_of_users = int(request.form['usr_num'])
     for random_user in range(number_of_users):
@@ -33,14 +33,15 @@ def generate_users():
 
 @app.route('/astros/')
 def astros():
-    astro_request = requests.get('http://api.open-notify.org/astros.json')
-    number_of_astros = astro_request.json()["number"]
-    astros_in_space = astro_request.json()["people"]
-    context = {
-        'number_of_astros': number_of_astros,
-        'astros_in_space': astros_in_space
-    }
-    return render_template('/astros/astros.html', **context)
+    astro_response = requests.get('http://api.open-notify.org/astros.json')
+    if astro_response.status_code == 200:
+        number_of_astros = astro_response.json()["number"]
+        astros_in_space = astro_response.json()["people"]
+        context = {
+            'number_of_astros': number_of_astros,
+            'astros_in_space': astros_in_space
+        }
+        return render_template('/astros/astros.html', **context)
 
 
 if __name__ == '__main__':
