@@ -5,9 +5,15 @@
     <title>Requirements</title>
 </head>
 <body>
-<h1>
-    <form action="/"><button>< HOME</button></form>
-</h1>
+<div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block" href="/">HOME</a>
+    <a class="py-2 d-none d-md-inline-block" href="/users/">USERS</a>
+    <a class="py-2 d-none d-md-inline-block" href="/requirements/">REQUIREMENTS</a>
+    <a class="py-2 d-none d-md-inline-block" href="/astros/">ASTROS</a>
+</div>
+<br>
+<h1>REQUIREMENTS</h1>
+<br>
 <table border="3">
 {% for requirement_str in requirements_list %}
    <tr>
