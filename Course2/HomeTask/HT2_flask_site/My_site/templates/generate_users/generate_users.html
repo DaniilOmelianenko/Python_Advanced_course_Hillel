@@ -5,8 +5,13 @@
     <title>USERGEN</title>
 </head>
 <body>
+<div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block" href="/">HOME</a>
+    <a class="py-2 d-none d-md-inline-block" href="/users/">USERS</a>
+    <a class="py-2 d-none d-md-inline-block" href="/requirements/">REQUIREMENTS</a>
+    <a class="py-2 d-none d-md-inline-block" href="/astros/">ASTROS</a>
+</div>
 <h1>
-    <form action="/"><button>< HOME</button></form>
     <button value="Refresh Page" onClick="window.location.href=window.location.href">Refresh Page</button>
 </h1>
 <h1>User generator</h1>
@@ -14,6 +19,7 @@
     <input type="number" required name="usr_num">
     <input type="submit" value="Generate">
 </form>
+<br>
 <table border="5">
 {% for key, value in users.items() %}
    <tr>

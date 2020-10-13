@@ -23,12 +23,16 @@ def generate_users():
     fake = Faker()
     users = {}
     number_of_users = 100
+    context = {
+        'users': users,
+        'number_of_users': number_of_users
+    }
     if request.method == 'POST' and request.form['usr_num'].isdigit():
         number_of_users = int(request.form['usr_num'])
     for random_user in range(number_of_users):
         temp_name = fake.name()
         users[temp_name] = str(temp_name.replace(' ', ''))+'@mail.com'
-    return render_template('/generate_users/generate_users.html', users=users, number_of_users=number_of_users)
+    return render_template('/generate_users/generate_users.html', **context)
 
 
 @app.route('/astros/')
