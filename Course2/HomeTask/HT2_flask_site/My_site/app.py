@@ -22,13 +22,14 @@ def requirements():
 def generate_users():
     fake = Faker()
     users = {}
-    number_of_users = 100
+    if request.method == 'GET':
+        number_of_users = 100
+    elif request.method == 'POST' and request.form['usr_num'].isdigit():
+        number_of_users = int(request.form['usr_num'])
     context = {
         'users': users,
         'number_of_users': number_of_users
     }
-    if request.method == 'POST' and request.form['usr_num'].isdigit():
-        number_of_users = int(request.form['usr_num'])
     for random_user in range(number_of_users):
         temp_name = fake.name()
         users[temp_name] = str(temp_name.replace(' ', ''))+'@mail.com'
@@ -46,6 +47,8 @@ def astros():
             'astros_in_space': astros_in_space
         }
         return render_template('/astros/astros.html', **context)
+    else:
+        print("Something went wrong! Try again with correct data or lry later.")
 
 
 if __name__ == '__main__':
