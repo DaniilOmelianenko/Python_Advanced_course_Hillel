@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 from sqlalchemy.orm import sessionmaker
 
-
 app = Flask(__name__)
 
 
@@ -45,6 +44,30 @@ def add_genre():
     return create_form_handler(GenreForm, Genre, 'Add Genre')
 
 
+@app.route('/<int:id>/update', methods=['GET', 'POST'])
+def book_update(id):
+    form = BookForm()
+    success = False
+    if request.method == "POST":
+        form = BookForm(request.form)
+        if form.validate():
+            temp_object = Book()
+            form.populate_obj(temp_object)  # добавляем обхект автора
+            session.add(temp_object)
+            session.commit()
+            success = True
+        return render_template(
+            'add_object.html', **{
+                'form': form,
+                'title': "Book Update",
+                'success': success
+            }
+        )
+    if request.method == "GET":
+        book = session.query(Book).get(id)
+        return render_template("book_update.html", book=book)
+
+
 @app.route('/')
 def home():
     books = session.query(Book).all()
@@ -65,21 +88,31 @@ def book_detail(id):
     )
 
 
-@app.route('/update/book/')
-def update_book():
-    books = session.query(Book).all()
-    return render_template(
-        'update_book.html', **{
-            'books': books
-        }
-    )
+@app.route('/<int:id>/del')
+def book_delete(id):
+    book = session.query(Book).get(id)
+
+    try:
+        session.delete(book)
+        session.commit()
+        return redirect('/')
+    except:
+        return "При удалении книги произошла ошибка"
 
 
-@app.route('/genre/')
+
+
+
+@app.route('/genre/<int:id>', methods=['GET', 'POST'])
 def genre():
-    books = session.query(Book).all()
+    if request.method == "GET":
+        books = session.query(Book).all()
+    if request.method == "POST":
+        book_id = request.form['book_id']
+        books = session.query(Book).get(book_id)
+        # books = session.query(Book).filter(Book.genre == book_id)
     return render_template(
-        'index.html', **{
+        'genre.html', **{
             'books': books
         }
     )

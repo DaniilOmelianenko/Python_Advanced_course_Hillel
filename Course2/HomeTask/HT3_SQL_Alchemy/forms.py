@@ -11,4 +11,3 @@ session = sessionmaker(bind=engine)()
 BookForm = model_form(Book, db_session=session)
 AuthorForm = model_form(Author, db_session=session)
 GenreForm = model_form(Genre, db_session=session)
-

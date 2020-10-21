@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="utf-8">
-  <title>BOOK #{{book.id}}</title>
+  <title>HOME</title>
  </head>
  <body>
 <nav class="site-header sticky-top py-1">
@@ -11,8 +11,15 @@
     <a class="py-2 d-none d-md-inline-block" href="/add_author/">Добавить Автора</a>
     <a class="py-2 d-none d-md-inline-block" href="/add_book/">Добавить Книгу</a>
     <a class="py-2 d-none d-md-inline-block" href="/add_genre/">Добавить Жанр</a>
+    <a class="py-2 d-none d-md-inline-block" href="/genre/">Поиск по жанру</a>
   </div>
 </nav>
+<h2>Поис книг по жанру:</h2>
+<form action="." method="post">
+    <input type="search" required name="book_id">
+    <input type="submit" value="Поиск">
+</form>
+<br>
 <table border="3" width="100%">
     <tr>
         <th></th>
@@ -21,16 +28,15 @@
         <th>YEAR</th>
         <th>AUTHOR</th>
     </tr>
+    {% for book in books %}
         <tr align="center">
             <td>{{book.id}}</td>
-            <td>{{book.name}}<br>
-                <a href="/{{ book.id }}/update" class="btn btn-success">Update</a>
-                <a href="/{{ book.id }}/del" class="btn btn-success">Delete</a>
-            </td>
+            <td>{{book.name}}<br><a href="/{{ book.id }}" class="btn btn-warning">Details</a></td>
             <td>{{book.genre_obj.name}}</td>
             <td>{{book.year}}</td>
             <td>{{book.author_obj.name}}</td>
         </tr>
+    {% endfor %}
 </table>
  </body>
 </html>
