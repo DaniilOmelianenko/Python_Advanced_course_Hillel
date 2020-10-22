@@ -13,7 +13,7 @@
     <a class="py-2 d-none d-md-inline-block" href="/add_genre/">Добавить Жанр</a>
   </div>
 </nav>
-<h1>{{title}}:</h1>
+<h1>Book Update</h1>
 <form method="post">
 {% for field in form %}
     <p>{{ field.label }} {{ field }}</p>
@@ -23,4 +23,5 @@
 {% if success %}
     <h2 style="color: green">Успешно!</h2>
 {% endif %}
+
 {% endblock %}

@@ -3,8 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from wtforms.ext.sqlalchemy.orm import model_form
 from models import Book, Author, Genre
 
-# session_class = sessionmaker(bind=engine)
-# session = session_class()
+
 session = sessionmaker(bind=engine)()
 
 

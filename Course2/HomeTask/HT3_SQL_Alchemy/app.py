@@ -1,10 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, request, redirect
 from forms import AuthorForm, BookForm, GenreForm, session
-from engine_db import engine
 from models import Author, Genre, Book
-from flask_sqlalchemy import SQLAlchemy
-import sqlite3
-from sqlalchemy.orm import sessionmaker
+
 
 app = Flask(__name__)
 
@@ -44,43 +41,44 @@ def add_genre():
     return create_form_handler(GenreForm, Genre, 'Add Genre')
 
 
-@app.route('/<int:id>/update', methods=['GET', 'POST'])
-def book_update(id):
-    form = BookForm()
+@app.route('/<int:book_id>/update', methods=['GET', 'POST'])
+def book_update(book_id):
+    book = session.query(Book).filter(Book.id == book_id).one()
+    form = BookForm(obj=book)
     success = False
-    if request.method == "POST":
+    if request.method == 'POST':
         form = BookForm(request.form)
         if form.validate():
-            temp_object = Book()
-            form.populate_obj(temp_object)  # добавляем обхект автора
-            session.add(temp_object)
+            form.populate_obj(book)
+            session.add(book)
             session.commit()
             success = True
-        return render_template(
-            'add_object.html', **{
-                'form': form,
-                'title': "Book Update",
-                'success': success
-            }
-        )
-    if request.method == "GET":
-        book = session.query(Book).get(id)
-        return render_template("book_update.html", book=book)
+    return render_template(
+        'book_update.html', **{
+            'book_id': book,
+            'form': form,
+            'success': success})
 
 
 @app.route('/')
 def home():
-    books = session.query(Book).all()
+    books = session.query(Book)
+    genre = dict(session.query(Genre.name, Genre.id))
+    year = [year.year for year in books]
+    query = request.args
+    for key, value in query.items():
+        if value != "ALL":
+            if value in genre.keys():
+                value = genre.get(value)
+            books = books.filter_by(**{key: value})
     return render_template(
-        'index.html', **{
-            'books': books
-        }
+        'index.html', **{'books': books, 'genre': genre, 'year': year}
     )
 
 
-@app.route('/<int:id>')
-def book_detail(id):
-    book = session.query(Book).get(id)
+@app.route('/<int:book_id>')
+def book_detail(book_id):
+    book = session.query(Book).get(book_id)
     return render_template(
         'book_detail.html', **{
             'book': book
@@ -88,44 +86,15 @@ def book_detail(id):
     )
 
 
-@app.route('/<int:id>/del')
-def book_delete(id):
-    book = session.query(Book).get(id)
-
+@app.route('/<int:book_id>/del')
+def book_delete(book_id):
+    book = session.query(Book).get(book_id)
     try:
         session.delete(book)
         session.commit()
         return redirect('/')
     except:
         return "При удалении книги произошла ошибка"
-
-
-
-
-
-@app.route('/genre/<int:id>', methods=['GET', 'POST'])
-def genre():
-    if request.method == "GET":
-        books = session.query(Book).all()
-    if request.method == "POST":
-        book_id = request.form['book_id']
-        books = session.query(Book).get(book_id)
-        # books = session.query(Book).filter(Book.genre == book_id)
-    return render_template(
-        'genre.html', **{
-            'books': books
-        }
-    )
-
-
-@app.route('/book_year/')
-def year():
-    books = session.query(Book).filter()
-    return render_template(
-        'index.html', **{
-            'books': books
-        }
-    )
 
 
 if __name__ == '__main__':

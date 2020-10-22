@@ -11,12 +11,33 @@
     <a class="py-2 d-none d-md-inline-block" href="/add_author/">Добавить Автора</a>
     <a class="py-2 d-none d-md-inline-block" href="/add_book/">Добавить Книгу</a>
     <a class="py-2 d-none d-md-inline-block" href="/add_genre/">Добавить Жанр</a>
-    <a class="py-2 d-none d-md-inline-block" href="/genre/">Поиск по жанру</a>
   </div>
 </nav>
+<br>
+<div>
+    <form action="/" method="get">
+        <select name="genre" id="genre_tag">
+            <option selected value="ALL">GENRE</option>
+            <option>ALL</option>
+            {% for genres in genre.keys() %}
+                <option>{{genres}}</option>
+            {% endfor %}
+        </select>
+
+        <select name="year" id="year_tag">
+            <option selected value="ALL">YEAR</option>
+            <option>ALL</option>
+                {% for years in year %}
+            <option>{{years}}</option>
+        {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+</div>
+<br>
 <table border="3" width="100%">
     <tr>
-        <th></th>
+        <th>ID</th>
         <th>NAME</th>
         <th>GENRE</th>
         <th>YEAR</th>
