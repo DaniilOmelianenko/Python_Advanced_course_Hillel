@@ -3,9 +3,6 @@ from django.views.generic.base import TemplateView
 from core.models import Teacher, Group, Student
 
 
-# from django.views.generic import CreateView, UpdateView
-
-
 class IndexView(TemplateView):
     template_name = "index.html"
 
@@ -31,9 +28,9 @@ class TeachersView(TemplateView):
     def get_context_data(self, **kwargs):
         teachers = Teacher.objects.all().select_related()
 
-        context = {'greet': "Hello!",
-                   'teachers': teachers
-                   }
+        context = {
+            'teachers': teachers
+        }
 
         if 'query' in self.request.GET:
             context['query'] = self.request.GET['query']
