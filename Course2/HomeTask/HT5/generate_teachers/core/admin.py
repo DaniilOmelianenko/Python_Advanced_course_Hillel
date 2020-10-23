@@ -1,5 +1,6 @@
+from core.models import Group, Student, Teacher
+
 from django.contrib import admin
-from core.models import Teacher, Group, Student
 
 
 admin.site.register(Teacher)

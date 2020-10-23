@@ -1,11 +1,14 @@
-from django.core.management.base import BaseCommand
-from core.models import Teacher
-import names
 from random import randint
+
+from core.models import Teacher
+
+from django.core.management.base import BaseCommand
+
+import names
 
 
 class Command(BaseCommand):
-    help = 'Generate 100 random teachers'
+    help_command = 'Generate 100 random teachers'
 
     def handle(self, *args, **kwargs):
         for i in range(100):

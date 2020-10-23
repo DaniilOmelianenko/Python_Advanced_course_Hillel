@@ -1,6 +1,7 @@
+from core.models import Student, Teacher
+
 from django.db.models import Q
 from django.views.generic.base import TemplateView
-from core.models import Teacher, Group, Student
 
 
 class IndexView(TemplateView):
@@ -16,7 +17,9 @@ class IndexView(TemplateView):
             context['query'] = self.request.GET['query']
             students = students.filter(
                 Q(firstname__contains=self.request.GET['query']) |
-                Q(group__title__contains=self.request.GET['query'])
+                Q(group__title__contains=self.request.GET['query']) |
+                Q(lastname__contains=self.request.GET['query']) |
+                Q(age__contains=self.request.GET['query'])
             )
             context['students'] = students
         return context

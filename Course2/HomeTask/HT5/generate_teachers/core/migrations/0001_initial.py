@@ -14,8 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Название')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True,
+                                        serialize=False,
+                                        verbose_name='ID'
+                                        )),
+                ('title', models.CharField(max_length=255,
+                                           verbose_name='Название'
+                                           )),
             ],
             options={
                 'verbose_name': 'Группа',
@@ -25,10 +31,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Teacher',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('firstname', models.CharField(default='', max_length=255, verbose_name='Имя')),
-                ('lastname', models.CharField(default='', max_length=255, verbose_name='Фамилия')),
-                ('age', models.IntegerField(default=1, verbose_name='Возраст')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True,
+                                        serialize=False,
+                                        verbose_name='ID'
+                                        )),
+                ('firstname', models.CharField(default='',
+                                               max_length=255,
+                                               verbose_name='Имя'
+                                               )),
+                ('lastname', models.CharField(default='',
+                                              max_length=255,
+                                              verbose_name='Фамилия'
+                                              )),
+                ('age', models.IntegerField(default=1,
+                                            verbose_name='Возраст'
+                                            )),
             ],
             options={
                 'verbose_name': 'Учитель',
@@ -38,11 +56,27 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Student',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('firstname', models.CharField(default='', max_length=255, verbose_name='Имя')),
-                ('lastname', models.CharField(default='', max_length=255, verbose_name='Фамилия')),
-                ('age', models.IntegerField(default=1, verbose_name='Возраст')),
-                ('group', models.ForeignKey(on_delete=models.SET('Without Group'), to='core.group', verbose_name='Группа')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True,
+                                        serialize=False,
+                                        verbose_name='ID'
+                                        )),
+                ('firstname', models.CharField(default='',
+                                               max_length=255,
+                                               verbose_name='Имя'
+                                               )),
+                ('lastname', models.CharField(default='',
+                                              max_length=255,
+                                              verbose_name='Фамилия'
+                                              )),
+                ('age', models.IntegerField(default=1,
+                                            verbose_name='Возраст'
+                                            )),
+                ('group', models.ForeignKey(
+                    on_delete=models.SET('Without Group'),
+                    to='core.group',
+                    verbose_name='Группа'
+                )),
             ],
             options={
                 'verbose_name': 'Студент',
@@ -52,6 +86,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='group',
             name='teacher',
-            field=models.ForeignKey(on_delete=models.SET('No Teacher'), to='core.teacher', verbose_name='Учитель'),
+            field=models.ForeignKey(on_delete=models.SET('No Teacher'),
+                                    to='core.teacher',
+                                    verbose_name='Учитель'
+                                    ),
         ),
     ]
