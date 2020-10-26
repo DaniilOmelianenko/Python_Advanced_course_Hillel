@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request
 from faker import Faker
-import requests
+
+from flask import Flask, render_template, request
+
+# import requests
 
 
 app = Flask(__name__)
@@ -15,7 +17,10 @@ def home():
 def requirements():
     with open('requirements.txt') as required:
         requirements_list = required.read().splitlines()
-        return render_template('/requirements/requirements.html', requirements_list=requirements_list)
+        return render_template(
+            '/requirements/requirements.html',
+            requirements_list=requirements_list
+        )
 
 
 @app.route('/users/', methods=['GET', 'POST'])
@@ -36,20 +41,22 @@ def generate_users():
     return render_template('/generate_users/generate_users.html', **context)
 
 
-@app.route('/astros/')
-def astros():
-    astro_response = requests.get('http://api.open-notify.org/astros.json')
-    if astro_response.status_code == 200:
-        number_of_astros = astro_response.json()["number"]
-        astros_in_space = astro_response.json()["people"]
-        context = {
-            'number_of_astros': number_of_astros,
-            'astros_in_space': astros_in_space
-        }
-        return render_template('/astros/astros.html', **context)
-    else:
-        print("Something went wrong! Try again with correct data or lry later.")
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# @app.route('/astros/')
+# def astros():
+#     astro_response = requests.get('http://api.open-notify.org/astros.json')
+#     error_text = '''Something went wrong!
+#     Try again with correct data or lry later.'''
+#     if astro_response.status_code == 200:
+#         number_of_astros = astro_response.json()["number"]
+#         astros_in_space = astro_response.json()["people"]
+#         context = {
+#             'number_of_astros': number_of_astros,
+#             'astros_in_space': astros_in_space
+#         }
+#         return render_template('/astros/astros.html', **context)
+#     else:
+#         print(error_text)
+#
+#
+# if __name__ == '__main__':
+#     app.run(debug=True)
