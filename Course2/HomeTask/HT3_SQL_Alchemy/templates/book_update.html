@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block body %}
+ <nav class="site-header sticky-top py-1">
+  <div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block" href="/">< HOME</a>
+    <a class="py-2 d-none d-md-inline-block" href="/add_author/">Добавить Автора</a>
+    <a class="py-2 d-none d-md-inline-block" href="/add_book/">Добавить Книгу</a>
+    <a class="py-2 d-none d-md-inline-block" href="/add_genre/">Добавить Жанр</a>
+  </div>
+</nav>
+<h1>Book Update</h1>
+<form method="post">
+{% for field in form %}
+    <p>{{ field.label }} {{ field }}</p>
+{% endfor %}
+    <button type="submit">Update</button>
+</form>
+{% if success %}
+    <h2 style="color: green">Успешно!</h2>
+{% endif %}
+
+{% endblock %}
