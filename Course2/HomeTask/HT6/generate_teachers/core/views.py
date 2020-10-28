@@ -78,7 +78,7 @@ class GroupsView(TemplateView):
 
 # 1lvl:
 # class StudentCreateView(TemplateView):
-#     template_name = 'create_student.html'
+#     template_name = 'student_create.html'
 #
 #     def get_context_data(self, **kwargs):
 #         context = super(StudentCreateView, self).get_context_data(**kwargs)
@@ -96,7 +96,7 @@ class GroupsView(TemplateView):
 
 # 2lvl:
 # class StudentCreateView(FormView):
-#     template_name = 'create_student.html'
+#     template_name = 'student_create.html'
 #     form_class = StudentCreateForm
 #     success_url = '/'
 #
@@ -110,14 +110,14 @@ class GroupsView(TemplateView):
 
 # 3lvl:
 class StudentCreateView(CreateView):
-    template_name = 'create_student.html'
+    template_name = 'student_create.html'
     success_url = '/'
     model = Student
     fields = '__all__'
 
 
 class GroupCreateView(CreateView):
-    template_name = 'create_group.html'
+    template_name = 'group_create.html'
     success_url = '/'
     model = Group
     fields = '__all__'
