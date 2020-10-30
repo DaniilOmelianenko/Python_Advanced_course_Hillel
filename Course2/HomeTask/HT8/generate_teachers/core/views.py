@@ -122,7 +122,7 @@ class StudentCreateView(CreateView):
     template_name = 'student_create.html'
     success_url = reverse_lazy('students:students')
     model = Student
-    form_class = StudentForm
+    fields = '__all__'
 
 
 class StudentUpdateView(UpdateView):
