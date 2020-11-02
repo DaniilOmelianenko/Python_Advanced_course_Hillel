@@ -14,12 +14,19 @@ class PhoneField(forms.Field):
     def clean(self, value):
         if value[0] != '+':
             raise forms.ValidationError('The first symbol should be +')
-        
+
         return super(PhoneField, self).clean(value)
-        
+
     def validate(self, value):
-        if any((not value['country_code'].isdigit(), not value['phone_number'].isdigit())):
-            raise forms.ValidationError('Phone number should only contain digits')
+        if any(
+                (
+                        not value['country_code'].isdigit(),
+                        not value['phone_number'].isdigit()
+                )
+        ):
+            raise forms.ValidationError(
+                '''Phone number should only contain digits'''
+            )
         elif not 1 <= len(value['country_code']) <= 3:
             raise forms.ValidationError('Wrong phone number length!')
         return value

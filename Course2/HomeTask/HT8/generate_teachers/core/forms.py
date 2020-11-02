@@ -1,5 +1,6 @@
+# from core.fields import PhoneField
 from core.models import Group, Student, Teacher
-from core.fields import PhoneField
+
 from django import forms
 
 
@@ -18,7 +19,7 @@ from django import forms
 
 class StudentForm(forms.ModelForm):
 
-    phone = PhoneField()
+    # phone = PhoneField()
 
     class Meta:
         model = Student
@@ -26,10 +27,10 @@ class StudentForm(forms.ModelForm):
         widgets = {
             'group': forms.widgets.RadioSelect()
         }
-    
-    def save(self, commit=True):
-        print(self.cleaned_data.pop('phone'))
-        return super(StudentForm, self).save(commit)
+
+    # def save(self, commit=True):
+    #     print(self.cleaned_data.pop('phone'))
+    #     return super(StudentForm, self).save(commit)
 
 
 class GroupForm(forms.ModelForm):

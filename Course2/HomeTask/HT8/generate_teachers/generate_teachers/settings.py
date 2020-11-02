@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'debug_toolbar',
     'bootstrapform',
+    'phone_field',
 ]
 
 MIDDLEWARE = [

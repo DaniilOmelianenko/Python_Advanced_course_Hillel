@@ -1,4 +1,10 @@
+# from core.fields import PhoneField
+# from core.signals import notify
+# from django.db.models.signals import post_save, pre_save
 from django.db import models
+from django.db.models.signals import pre_save
+
+from phone_field import PhoneField
 
 
 class Teacher(models.Model):
@@ -19,9 +25,19 @@ class Teacher(models.Model):
         default=1,
         verbose_name="Возраст"
     )
+    # phone = PhoneField(
+    #     null=False,
+    #     default=""
+    # )
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
+
+    # def save(self, **kwargs):
+    #     # pre save
+    #     resp = super(Teacher, self).save(**kwargs)    # вмессто сигналов
+    #     # post save
+    #     return resp
 
     class Meta:
         verbose_name = "Учитель"
@@ -71,6 +87,14 @@ class Student(models.Model):
         verbose_name="Группа",
         related_name='students'
     )
+    # phone = PhoneField(
+    #     null=True,
+    #     blank=True
+    # )
+    phone = PhoneField(
+        blank=True,
+        help_text='Contact phone number'
+    )
 
     def __str__(self):
         return f'{self.firstname} {self.lastname} {self.age}'
@@ -78,3 +102,18 @@ class Student(models.Model):
     class Meta:
         verbose_name = "Студент"
         verbose_name_plural = "Студенты"
+
+
+# def send_notify(**kwargs):
+#     notify('Base was updated!')
+
+
+def change_name(instance, **kwargs):
+    instance.firstname = instance.firstname.capitalize()
+    instance.lastname = instance.lastname.capitalize()
+
+
+# post_save.connect(send_notify, sender=Student)
+# post_save.connect(send_notify, sender=Teacher)
+pre_save.connect(change_name, sender=Student)
+pre_save.connect(change_name, sender=Teacher)
