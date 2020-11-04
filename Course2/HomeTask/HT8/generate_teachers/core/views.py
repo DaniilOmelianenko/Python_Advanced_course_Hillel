@@ -35,7 +35,8 @@ class StudentsView(TemplateView):
                 Q(firstname__contains=self.request.GET['query']) |
                 Q(group__title__contains=self.request.GET['query']) |
                 Q(lastname__contains=self.request.GET['query']) |
-                Q(age__contains=self.request.GET['query'])
+                Q(age__contains=self.request.GET['query']) |
+                Q(phone__contains=self.request.GET['query'])
             )
             context['students'] = students
         return context
@@ -122,7 +123,7 @@ class StudentCreateView(CreateView):
     template_name = 'student_create.html'
     success_url = reverse_lazy('students:students')
     model = Student
-    form_class = StudentForm
+    fields = '__all__'
 
 
 class StudentUpdateView(UpdateView):
