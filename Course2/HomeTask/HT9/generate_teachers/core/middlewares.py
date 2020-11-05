@@ -11,7 +11,7 @@ class LogMiddleware(MiddlewareMixin):
         request.start_time = time()
 
     def process_response(self, request, response):
-        if request.path != '/admin/':
+        if not request.path.startswith('/admin/'):
             request.end_time = time()
             save_data = Logger(
                 path=request.path,
