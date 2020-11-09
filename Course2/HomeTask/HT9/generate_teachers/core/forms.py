@@ -2,6 +2,8 @@
 from core.models import Group, Student, Teacher
 
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 # class StudentCreateForm(forms.Form):
@@ -81,3 +83,25 @@ class ContactUsForm(forms.Form):
     title = forms.CharField()
     message = forms.CharField()
     email_from = forms.EmailField()
+
+
+class RegistrationForm(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.widgets.PasswordInput())
+
+    class Meta:
+        model = get_user_model
+        fields = ('email', 'username', 'password', 'confirm_password')
+        widgets = {
+            'password': forms.widgets.PasswordInput()
+        }
+
+    def clean_confirm_password(self):
+        if self.cleaned_data['confirm_password'] != self.cleaned_data['password']:
+            raise forms.ValidationError("Passwords should be the same!")
+        return self.cleaned_data['password']
+
+    def save(self, commit=True):
+        new_account = super().save(commit=False)
+        new_account.set_password(self.cleaned_data['password'])
+        new_account.save()
+        return new_account

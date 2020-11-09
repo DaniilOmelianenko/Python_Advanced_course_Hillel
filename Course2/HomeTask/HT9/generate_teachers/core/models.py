@@ -1,13 +1,15 @@
 # from core.fields import PhoneField
 # from core.signals import notify
 # from django.db.models.signals import post_save, pre_save
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 from django.db.models.signals import pre_save
 
 from phone_field import PhoneField
 
 
-class Teacher(models.Model):
+class Teacher(AbstractUser):
     firstname = models.CharField(
         max_length=255,
         null=False,
@@ -50,10 +52,23 @@ class Group(models.Model):
         verbose_name="Название"
     )
     teacher = models.ForeignKey(
-        Teacher,
+        get_user_model(),
         on_delete=models.CASCADE,
         verbose_name="Учитель"
     )
+    # title = models.CharField(
+    #     max_length=255,
+    #     verbose_name="Название"
+    # )
+    # teacher = models.ForeignKey(
+    #     User,
+    #     on_delete=models.CASCADE,
+    #     verbose_name="Учитель"
+    # )
+    # students = models.ManyToManyField(
+    #     "core.Student",
+    #     blank=True
+    # )
 
     def __str__(self):
         return self.title
@@ -64,6 +79,19 @@ class Group(models.Model):
 
 
 class Student(models.Model):
+
+    EXPERIENCE_TRAINEE = 0
+    EXPERIENCE_JUNIOR = 1
+    EXPERIENCE_MIDDLE = 2
+    EXPERIENCE_SENIOR = 3
+
+    EXPERIENCE_CHOICES = (
+        (EXPERIENCE_TRAINEE, 'TRAINEE'),
+        (EXPERIENCE_JUNIOR, 'JUNIOR'),
+        (EXPERIENCE_MIDDLE, 'MIDDLE'),
+        (EXPERIENCE_SENIOR, 'SENIOR')
+    )
+
     firstname = models.CharField(
         max_length=255,
         null=False,
@@ -87,13 +115,18 @@ class Student(models.Model):
         verbose_name="Группа",
         related_name='students'
     )
-    # phone = PhoneField(
-    #     null=True,
-    #     blank=True
+    # group = models.ManyToManyField(
+    #     Group,
+    #     blank=True,
+    #     verbose_name="Группа"
     # )
     phone = PhoneField(
         blank=True,
         help_text='Contact phone number'
+    )
+    experience = models.PositiveSmallIntegerField(
+        choices=EXPERIENCE_CHOICES,
+        default=0
     )
 
     def __str__(self):

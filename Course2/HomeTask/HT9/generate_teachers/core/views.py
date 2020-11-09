@@ -5,9 +5,10 @@
 # from django.views.generic import FormView, CreateView
 # from django.shortcuts import redirect, get_object_or_404
 # from core.forms import GroupForm, StudentForm, TeacherForm
-from core.forms import ContactUsForm, StudentForm, TeacherForm
+from core.forms import ContactUsForm, RegistrationForm, StudentForm, TeacherForm
 from core.models import Group, Student, Teacher
 from core.tasks import send_mail_task
+from django.contrib.auth.models import User
 
 from django.db.models import IntegerField, Q
 from django.db.models.aggregates import Avg, Count, Max, Min
@@ -284,3 +285,10 @@ class ContactUsView(FormView):
             form.cleaned_data['email_from']
         )
         return response
+
+
+class RegistrationView(CreateView):
+    model = User
+    form_class = RegistrationForm
+    template_name = 'registration.html'
+    success_url = reverse_lazy('students:home')
