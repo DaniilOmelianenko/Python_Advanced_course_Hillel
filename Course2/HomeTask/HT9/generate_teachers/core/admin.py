@@ -1,6 +1,6 @@
 from core.models import Group, Student, Teacher
-from django.contrib.auth.models import User
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 
 class StudentAdmin(admin.ModelAdmin):
@@ -9,7 +9,10 @@ class StudentAdmin(admin.ModelAdmin):
     list_filter = ('group', )
 
 
-admin.site.register(Teacher)
+class TeacherAdmin(UserAdmin):
+    pass
+
+
+admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Group)
-admin.site.unregister(User)

@@ -10,18 +10,18 @@ from phone_field import PhoneField
 
 
 class Teacher(AbstractUser):
-    firstname = models.CharField(
-        max_length=255,
-        null=False,
-        default="",
-        verbose_name="Имя"
-    )
-    lastname = models.CharField(
-        max_length=255,
-        null=False,
-        default="",
-        verbose_name="Фамилия"
-    )
+    # firstname = models.CharField(
+    #     max_length=255,
+    #     null=False,
+    #     default="",
+    #     verbose_name="Имя"
+    # )
+    # lastname = models.CharField(
+    #     max_length=255,
+    #     null=False,
+    #     default="",
+    #     verbose_name="Фамилия"
+    # )
     age = models.IntegerField(
         null=False,
         default=1,
@@ -33,7 +33,7 @@ class Teacher(AbstractUser):
     # )
 
     def __str__(self):
-        return f'{self.firstname} {self.lastname}'
+        return f'{self.first_name} {self.last_name}'
 
     # def save(self, **kwargs):
     #     # pre save

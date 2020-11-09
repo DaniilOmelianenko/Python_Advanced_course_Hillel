@@ -89,8 +89,8 @@ class RegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.widgets.PasswordInput())
 
     class Meta:
-        model = get_user_model
-        fields = ('email', 'username', 'password', 'confirm_password')
+        model = get_user_model()
+        fields = ('email', 'username', 'first_name', 'last_name', 'password', 'confirm_password')
         widgets = {
             'password': forms.widgets.PasswordInput()
         }

@@ -9,7 +9,7 @@ from core.forms import ContactUsForm, RegistrationForm, StudentForm, TeacherForm
 from core.models import Group, Student, Teacher
 from core.tasks import send_mail_task
 from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
 from django.db.models import IntegerField, Q
 from django.db.models.aggregates import Avg, Count, Max, Min
 from django.shortcuts import redirect
@@ -57,8 +57,8 @@ class TeachersView(TemplateView):
         if 'query' in self.request.GET:
             context['query'] = self.request.GET['query']
             teachers = teachers.filter(
-                Q(firstname__contains=self.request.GET['query']) |
-                Q(lastname__contains=self.request.GET['query']) |
+                Q(first_name__contains=self.request.GET['query']) |
+                Q(last_name__contains=self.request.GET['query']) |
                 Q(age__contains=self.request.GET['query'])
             )
             context['teachers'] = teachers
@@ -167,6 +167,7 @@ class GroupUpdateView(UpdateView):
         return super(GroupUpdateView, self).post(request, group_id)
 
 
+#--------------------------------------  создание и редактирование учителей
 class TeacherCreateView(CreateView):
     template_name = 'teacher_create.html'
     success_url = reverse_lazy('students:teachers')
@@ -188,6 +189,7 @@ class TeacherUpdateView(UpdateView):
             delete_teacher.delete()
             return redirect(reverse_lazy('students:teachers'))
         return super(TeacherUpdateView, self).post(request, teacher_id)
+#--------------------------------------
 
 
 # class StudentUpdateView(TemplateView):  #class StudentUpdateForm(forms.Form)
@@ -288,7 +290,7 @@ class ContactUsView(FormView):
 
 
 class RegistrationView(CreateView):
-    model = User
+    model = get_user_model()
     form_class = RegistrationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('students:home')
