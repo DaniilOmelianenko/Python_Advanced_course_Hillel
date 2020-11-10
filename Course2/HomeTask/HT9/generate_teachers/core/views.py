@@ -167,7 +167,7 @@ class GroupUpdateView(UpdateView):
         return super(GroupUpdateView, self).post(request, group_id)
 
 
-#--------------------------------------  создание и редактирование учителей
+# --------------------------------------  создание и редактирование учителей
 class TeacherCreateView(CreateView):
     template_name = 'teacher_create.html'
     success_url = reverse_lazy('students:teachers')
@@ -189,7 +189,7 @@ class TeacherUpdateView(UpdateView):
             delete_teacher.delete()
             return redirect(reverse_lazy('students:teachers'))
         return super(TeacherUpdateView, self).post(request, teacher_id)
-#--------------------------------------
+# --------------------------------------
 
 
 # class StudentUpdateView(TemplateView):  #class StudentUpdateForm(forms.Form)
@@ -223,7 +223,7 @@ class TeacherUpdateView(UpdateView):
 
 
 # class StudentUpdateView(TemplateView):
-    # '''class StudentUpdateForm(forms.ModelForm):'''
+# '''class StudentUpdateForm(forms.ModelForm):'''
 #     template_name = 'student_update.html'
 #
 #     def get_context_data(self, **kwargs):
@@ -247,7 +247,7 @@ class TeacherUpdateView(UpdateView):
 
 
 # class StudentUpdateView(FormView):
-    # '''class StudentUpdateForm(forms.ModelForm):'''
+# '''class StudentUpdateForm(forms.ModelForm):'''
 #     template_name = 'student_update.html'
 #     form_class = StudentUpdateForm
 #     success_url = '/'
@@ -294,3 +294,7 @@ class RegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('students:home')
+
+
+class TeacherAdminView(TemplateView):
+    template_name = 'teacher_admin.html'

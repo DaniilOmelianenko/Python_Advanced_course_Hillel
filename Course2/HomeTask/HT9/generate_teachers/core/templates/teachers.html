@@ -29,7 +29,7 @@
     <table class="table">
         <tr>
             <th>#</th>
-            <th>ID</th>
+<!--            <th>ID</th>-->
             <th>Имя</th>
             <th>Фамилия</th>
             <th>Возраст</th>
@@ -38,10 +38,28 @@
         {% for teacher in teachers %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{teacher.id}}</td>
+<!--                <td>{{teacher.id}}</td>-->
                 <td>{{teacher.first_name}}</td>
                 <td>{{teacher.last_name}}</td>
                 <td>{{teacher.age}}</td>
+                <td>
+                    <table class="table">
+                        <tr>
+                            <th>Группы</th>
+                            <th>Студенты</th>
+                        </tr>
+                        {% for group in teacher.teacher_groups.all %}
+                            <tr>
+                                <td>{{group.title}}</td>
+                                <td>
+                                    {% for student in group.students.all %}
+                                    {{student.firstname}} {{student.lastname}}<br>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
 <!--                <td>-->
 <!--                    <a class="btn btn-primary" href="{% url 'students:teacher_update' teacher.id %}">UPDATE</a>-->
 <!--                </td>-->

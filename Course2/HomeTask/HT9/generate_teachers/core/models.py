@@ -54,7 +54,8 @@ class Group(models.Model):
     teacher = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
-        verbose_name="Учитель"
+        verbose_name="Учитель",
+        related_name="teacher_groups"
     )
     # title = models.CharField(
     #     max_length=255,
