@@ -13,6 +13,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='student',
             name='experience',
-            field=models.PositiveSmallIntegerField(choices=[(0, 'TRAINEE'), (1, 'JUNIOR'), (2, 'MIDDLE'), (3, 'SENIOR')], default=0),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (0, 'TRAINEE'),
+                    (1, 'JUNIOR'),
+                    (2, 'MIDDLE'),
+                    (3, 'SENIOR')
+                ],
+                default=0
+            ),
         ),
     ]

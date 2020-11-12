@@ -2,7 +2,7 @@
 from core.models import Group, Student, Teacher
 
 from django import forms
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 
@@ -90,13 +90,21 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'username', 'first_name', 'last_name', 'password', 'confirm_password')
+        fields = (
+            'email',
+            'username',
+            'first_name',
+            'last_name',
+            'password',
+            'confirm_password'
+        )
         widgets = {
             'password': forms.widgets.PasswordInput()
         }
 
     def clean_confirm_password(self):
-        if self.cleaned_data['confirm_password'] != self.cleaned_data['password']:
+        if self.cleaned_data['confirm_password'] !=\
+                self.cleaned_data['password']:
             raise forms.ValidationError("Passwords should be the same!")
         return self.cleaned_data['password']
 

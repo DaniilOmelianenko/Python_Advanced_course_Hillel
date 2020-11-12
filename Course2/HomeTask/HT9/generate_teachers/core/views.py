@@ -5,10 +5,12 @@
 # from django.views.generic import FormView, CreateView
 # from django.shortcuts import redirect, get_object_or_404
 # from core.forms import GroupForm, StudentForm, TeacherForm
-from core.forms import ContactUsForm, RegistrationForm, StudentForm, TeacherForm
+# from django.contrib.auth.models import User
+from core.forms import ContactUsForm,\
+    RegistrationForm, StudentForm, TeacherForm
 from core.models import Group, Student, Teacher
 from core.tasks import send_mail_task
-from django.contrib.auth.models import User
+
 from django.contrib.auth import get_user_model
 from django.db.models import IntegerField, Q
 from django.db.models.aggregates import Avg, Count, Max, Min

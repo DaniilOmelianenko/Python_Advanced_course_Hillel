@@ -1,8 +1,9 @@
 # from core.fields import PhoneField
 # from core.signals import notify
 # from django.db.models.signals import post_save, pre_save
+# from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import pre_save
 
@@ -27,6 +28,7 @@ class Teacher(AbstractUser):
         default=1,
         verbose_name="Возраст"
     )
+
     # phone = PhoneField(
     #     null=False,
     #     default=""
@@ -57,19 +59,6 @@ class Group(models.Model):
         verbose_name="Учитель",
         related_name="teacher_groups"
     )
-    # title = models.CharField(
-    #     max_length=255,
-    #     verbose_name="Название"
-    # )
-    # teacher = models.ForeignKey(
-    #     User,
-    #     on_delete=models.CASCADE,
-    #     verbose_name="Учитель"
-    # )
-    # students = models.ManyToManyField(
-    #     "core.Student",
-    #     blank=True
-    # )
 
     def __str__(self):
         return self.title
@@ -80,7 +69,6 @@ class Group(models.Model):
 
 
 class Student(models.Model):
-
     EXPERIENCE_TRAINEE = 0
     EXPERIENCE_JUNIOR = 1
     EXPERIENCE_MIDDLE = 2
@@ -142,15 +130,20 @@ class Student(models.Model):
 #     notify('Base was updated!')
 
 
-def change_name(instance, **kwargs):
+def change_name_teacher(instance, **kwargs):
+    instance.first_name = instance.first_name.capitalize()
+    instance.last_name = instance.last_name.capitalize()
+
+
+def change_name_student(instance, **kwargs):
     instance.firstname = instance.firstname.capitalize()
     instance.lastname = instance.lastname.capitalize()
 
 
 # post_save.connect(send_notify, sender=Student)
 # post_save.connect(send_notify, sender=Teacher)
-pre_save.connect(change_name, sender=Student)
-pre_save.connect(change_name, sender=Teacher)
+pre_save.connect(change_name_student, sender=Student)
+pre_save.connect(change_name_teacher, sender=Teacher)
 
 
 class Logger(models.Model):
