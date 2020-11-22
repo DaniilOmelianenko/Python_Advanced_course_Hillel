@@ -168,3 +168,21 @@ class Logger(models.Model):
     creation_date = models.DateField(
         auto_now_add=True
     )
+
+
+class Currency(models.Model):
+    CURRENCY_USD = 1
+    CURRENCY_EUR = 2
+    CURRENCY_RUR = 3
+
+    CURRENCY_CHOICES = (
+        (CURRENCY_USD, 'USD'),
+        (CURRENCY_EUR, 'EUR'),
+        (CURRENCY_RUR, 'RUR')
+    )
+    currency_name = models.PositiveSmallIntegerField(choices=CURRENCY_CHOICES)
+    currency_code = models.PositiveSmallIntegerField()
+    currency_buy_rate = models.DecimalField(max_digits=10, decimal_places=2)
+    currency_sell_rate = models.DecimalField(max_digits=10, decimal_places=2)
+    currency_rate_date = models.DateTimeField(auto_now_add=True)
+    bank = models.CharField(max_length=30)

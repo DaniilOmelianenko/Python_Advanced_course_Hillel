@@ -1,4 +1,4 @@
-from core.models import Group, Student, Teacher
+from core.models import Currency, Group, Student, Teacher
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -47,6 +47,18 @@ class TeacherAdmin(UserAdmin):
     )
 
 
+class CurrencyAdmin(admin.ModelAdmin):
+    list_display = (
+        'currency_name',
+        'currency_code',
+        'currency_buy_rate',
+        'currency_sell_rate',
+        'currency_rate_date',
+        'bank'
+    )
+
+
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Group)
+admin.site.register(Currency, CurrencyAdmin)

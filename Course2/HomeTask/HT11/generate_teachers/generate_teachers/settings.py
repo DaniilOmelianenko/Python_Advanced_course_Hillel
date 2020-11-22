@@ -142,7 +142,10 @@ CELERY_BEAT_SCHEDULE = {
     'delete-logs': {
         'task': 'core.tasks.delete_old_logs',
         'schedule': crontab(minute=0, hour=0)
-        # 'schedule': crontab()
+    },
+    'collect_currency_task': {
+        'task': 'core.tasks.collect_currency_rates',
+        'schedule': crontab(minute=0, hour='*/3')
     }
 }
 
