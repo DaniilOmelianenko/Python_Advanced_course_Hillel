@@ -1,6 +1,7 @@
 from core.views import ContactUsView, GroupCreateView, GroupUpdateView,\
-    GroupsView, IndexView, StudentCreateView, StudentUpdateView,\
-    StudentsView, TeacherCreateView, TeacherUpdateView, TeachersView
+    GroupsView, IndexView, RegistrationView, StudentCreateView,\
+    StudentUpdateView, StudentsView, TeacherCreateView,\
+    TeacherUpdateView, TeachersView
 
 from django.urls import path
 
@@ -22,4 +23,5 @@ urlpatterns = [
     path('student/update/<int:student_id>/',
          StudentUpdateView.as_view(), name='student_update'),
     path('contact_us/', ContactUsView.as_view(), name='contact_us'),
+    path('registration/', RegistrationView.as_view(), name='registration'),
 ]

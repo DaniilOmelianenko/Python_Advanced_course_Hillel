@@ -35,6 +35,7 @@
             <th>Номер мобильного</th>
             <th>Возраст</th>
             <th>Группа</th>
+            <th>ОПЫТ</th>
             <th>Учитель</th>
             <th></th>
         </tr>
@@ -47,6 +48,7 @@
                 <td>{{student.phone}}</td>
                 <td>{{student.age}}</td>
                 <td>{{student.group}}</td>
+                <td>{{student.experience}}</td>
                 <td>{{student.group.teacher}}</td>
                 <td>
                     <a class="btn btn-primary" href="{% url 'students:student_update' student.id %}">UPDATE</a>

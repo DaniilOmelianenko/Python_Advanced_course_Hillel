@@ -5,10 +5,13 @@
 # from django.views.generic import FormView, CreateView
 # from django.shortcuts import redirect, get_object_or_404
 # from core.forms import GroupForm, StudentForm, TeacherForm
-from core.forms import ContactUsForm, StudentForm, TeacherForm
+# from django.contrib.auth.models import User
+from core.forms import ContactUsForm,\
+    RegistrationForm, StudentForm, TeacherForm
 from core.models import Group, Student, Teacher
 from core.tasks import send_mail_task
 
+from django.contrib.auth import get_user_model
 from django.db.models import IntegerField, Q
 from django.db.models.aggregates import Avg, Count, Max, Min
 from django.shortcuts import redirect
@@ -56,8 +59,8 @@ class TeachersView(TemplateView):
         if 'query' in self.request.GET:
             context['query'] = self.request.GET['query']
             teachers = teachers.filter(
-                Q(firstname__contains=self.request.GET['query']) |
-                Q(lastname__contains=self.request.GET['query']) |
+                Q(first_name__contains=self.request.GET['query']) |
+                Q(last_name__contains=self.request.GET['query']) |
                 Q(age__contains=self.request.GET['query'])
             )
             context['teachers'] = teachers
@@ -166,6 +169,7 @@ class GroupUpdateView(UpdateView):
         return super(GroupUpdateView, self).post(request, group_id)
 
 
+# --------------------------------------  создание и редактирование учителей
 class TeacherCreateView(CreateView):
     template_name = 'teacher_create.html'
     success_url = reverse_lazy('students:teachers')
@@ -187,6 +191,7 @@ class TeacherUpdateView(UpdateView):
             delete_teacher.delete()
             return redirect(reverse_lazy('students:teachers'))
         return super(TeacherUpdateView, self).post(request, teacher_id)
+# --------------------------------------
 
 
 # class StudentUpdateView(TemplateView):  #class StudentUpdateForm(forms.Form)
@@ -220,7 +225,7 @@ class TeacherUpdateView(UpdateView):
 
 
 # class StudentUpdateView(TemplateView):
-    # '''class StudentUpdateForm(forms.ModelForm):'''
+# '''class StudentUpdateForm(forms.ModelForm):'''
 #     template_name = 'student_update.html'
 #
 #     def get_context_data(self, **kwargs):
@@ -244,7 +249,7 @@ class TeacherUpdateView(UpdateView):
 
 
 # class StudentUpdateView(FormView):
-    # '''class StudentUpdateForm(forms.ModelForm):'''
+# '''class StudentUpdateForm(forms.ModelForm):'''
 #     template_name = 'student_update.html'
 #     form_class = StudentUpdateForm
 #     success_url = '/'
@@ -284,3 +289,14 @@ class ContactUsView(FormView):
             form.cleaned_data['email_from']
         )
         return response
+
+
+class RegistrationView(CreateView):
+    model = get_user_model()
+    form_class = RegistrationForm
+    template_name = 'registration.html'
+    success_url = reverse_lazy('students:home')
+
+
+class TeacherAdminView(TemplateView):
+    template_name = 'teacher_admin.html'
