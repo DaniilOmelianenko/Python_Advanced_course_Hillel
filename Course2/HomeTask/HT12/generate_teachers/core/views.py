@@ -14,7 +14,6 @@ from core.tasks import send_mail_task
 from django.contrib.auth import get_user_model
 from django.db.models import IntegerField, Q
 from django.db.models.aggregates import Avg, Count, Max, Min
-
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, UpdateView
@@ -28,7 +27,9 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data(*args, **kwargs)
 
         context['inputted_list'] = self.request.GET.get('inputted_list', '')
-        context['inputted_string'] = self.request.GET.get('inputted_string', '')
+        context['inputted_string'] = self.request.GET.get(
+            'inputted_string', ''
+        )
 
         return context
 

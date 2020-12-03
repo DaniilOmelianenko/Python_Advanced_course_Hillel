@@ -1,7 +1,8 @@
-from django import template
 import re
-from core.models import Teacher
-from random import randint
+
+from core.models import Student, Teacher
+
+from django import template
 
 
 register = template.Library()
@@ -21,8 +22,19 @@ def number_of_words(string):
     return str(len(string.split()))
 
 
-@register.inclusion_tag(filename='teachers.html')
+@register.inclusion_tag(filename='includes/teacher_filtering.html')
 def random_5_teachers(count=5):
     return {
         'teachers': Teacher.objects.all().order_by('?')[:count]
+    }
+
+
+@register.inclusion_tag(filename='includes/student_filtering.html')
+def query_filter():
+    students = Student.objects.all().select_related().filter(
+        firstname='Odi',
+        age=12
+    )
+    return {
+        'students': students
     }
