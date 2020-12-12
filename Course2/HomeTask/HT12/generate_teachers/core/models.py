@@ -180,24 +180,9 @@ class Currency(models.Model):
         (CURRENCY_EUR, 'EUR'),
         (CURRENCY_RUR, 'RUR')
     )
-
-    BANK_NATIONAL_BANK = 1
-    BANK_MINFIN_MEJBANK = 2
-    BANK_VKURSE_DP = 3
-    BANK_MONO = 4
-    BANK_KURSTODAY = 5
-
-    BANK_CHOICES = (
-        (BANK_NATIONAL_BANK, 'NATIONAL_BANK'),
-        (BANK_MINFIN_MEJBANK, 'MINFIN_MEJBANK'),
-        (BANK_VKURSE_DP, 'VKURSE_DP'),
-        (BANK_MONO, 'MONO'),
-        (BANK_KURSTODAY, 'KURSTODAY')
-    )
-
     currency_name = models.PositiveSmallIntegerField(choices=CURRENCY_CHOICES)
     currency_code = models.PositiveSmallIntegerField()
     currency_buy_rate = models.DecimalField(max_digits=10, decimal_places=2)
     currency_sell_rate = models.DecimalField(max_digits=10, decimal_places=2)
     currency_rate_date = models.DateTimeField(auto_now_add=True)
-    bank = models.PositiveSmallIntegerField(choices=BANK_CHOICES)
+    bank = models.CharField(max_length=30)

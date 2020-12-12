@@ -1,6 +1,6 @@
 import re
 
-from core.models import Teacher
+from core.models import Student, Teacher
 
 from django import template
 
@@ -23,19 +23,18 @@ def number_of_words(string):
 
 
 @register.inclusion_tag(filename='includes/teacher_filtering.html')
-def random_teachers(count=5):
+def random_5_teachers(count=5):
     return {
         'teachers': Teacher.objects.all().order_by('?')[:count]
     }
 
 
-@register.simple_tag
-def query_filter_simple(query, **kwargs):
-    return query.filter(**kwargs)
-
-
 @register.inclusion_tag(filename='includes/student_filtering.html')
-def query_filter_inclision(query, **kwargs):
+def query_filter():
+    students = Student.objects.all().select_related().filter(
+        firstname='Odi',
+        age=12
+    )
     return {
-        'students': query.filter(**kwargs)
+        'students': students
     }
