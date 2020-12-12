@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% load custom_tags %}
+{% block body %}
+    <h1>STUDENTS</h1>
+    <a class="py-2 d-none d-md-inline-block" href="{% url 'students:student_create' %}">ADD STUDENT</a>
+    <div class="col-md-12">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <input class="form-control" type="search" name="query" value="{{query}}">
+                </div>
+                <div class="col-md-9">
+                    <input type="submit" class="btn btn-primary" value="SEARCH">
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Номер мобильного</th>
+            <th>Возраст</th>
+            <th>Группа</th>
+            <th>ОПЫТ</th>
+            <th>Учитель</th>
+            <th></th>
+        </tr>
+        {% for student in students %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{student.id}}</td>
+                <td>{{student.firstname}}</td>
+                <td>{{student.lastname}}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.age}}</td>
+                <td>{{student.group}}</td>
+                <td>{{student.experience}}</td>
+                <td>{{student.group.teacher}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'students:student_update' student.id %}">UPDATE</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h1>STUDENTS_Filter</h1>
+    {% query_filter_simple students firstname='Odi' age=12 %}
+    {% query_filter_inclision students firstname='Odi' age=12 %}
+{% endblock body %}
