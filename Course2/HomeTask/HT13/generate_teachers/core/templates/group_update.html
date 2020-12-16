@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block body%}
+        <form role="form" method="post">
+            <legend>GROUP UPDATE</legend>{% csrf_token %}
+            {{ form|bootstrap }}
+            <div class="form-group">
+              <button type="submit" name="update_group" class="btn btn-primary">UPDATE</button>
+              <button type="submit" name="delete_group" class="btn btn-primary">DELETE GROUP</button>
+            </div>
+        </form>
+{% endblock body%}

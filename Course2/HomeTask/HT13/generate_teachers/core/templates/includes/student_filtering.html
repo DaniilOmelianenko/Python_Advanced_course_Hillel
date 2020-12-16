@@ -1,0 +1,31 @@
+<h1>STUDENTS_FILTER</h1>
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Номер мобильного</th>
+            <th>Возраст</th>
+            <th>Группа</th>
+            <th>ОПЫТ</th>
+            <th>Учитель</th>
+            <th></th>
+        </tr>
+        {% for student in students %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{student.id}}</td>
+                <td>{{student.firstname}}</td>
+                <td>{{student.lastname}}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.age}}</td>
+                <td>{{student.group}}</td>
+                <td>{{student.experience}}</td>
+                <td>{{student.group.teacher}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'students:student_update' student.id %}">UPDATE</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
