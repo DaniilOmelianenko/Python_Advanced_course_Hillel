@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% block body%}
+
+        <h1>HOME PAGE</h1>
+        <h1>DOCKER CHECK</h1>
+        <h1>проверка кастомных фильтров</h1>
+        <h2>вывод четных чисел из списка:</h2>
+        <form>
+                <input type="text" name="inputted_list">
+        </form>
+        {{ inputted_list|even_numbers }}
+        <h2>кол-во слов в строке:</h2>
+        <form>
+                <input type="text" name="inputted_string">
+        </form>
+        {{ inputted_string|number_of_words }}
+        {% random_5_teachers 2 %}
+        {% query_filter %}
+
+{% endblock body%}
