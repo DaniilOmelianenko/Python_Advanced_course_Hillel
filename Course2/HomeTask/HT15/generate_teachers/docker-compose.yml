@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  web:
+#    build:
+#      dockerfile: Dockerfile
+    build: .
+    ports:
+      - 8080:8000
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/myfirstdockerapp
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=admin_db
+
+  rabbitmq:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - 15672:15672
+
+  celery:
+    image: celery:3.1.25
+    build: .
+    command: bash -c "celery -A generate_teachers worker -l info -B"
+    volumes:
+      - .:/myfirstdockerapp
+    depends_on:
+      - web
+      - rabbitmq
+    working_dir: /myfirstdockerapp
+    ports:
+      - 5555:5555

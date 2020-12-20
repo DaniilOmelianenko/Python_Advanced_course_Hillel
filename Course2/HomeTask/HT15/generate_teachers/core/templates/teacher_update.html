@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block body%}
+        <form role="form" method="post">
+            <legend>TEACHER UPDATE</legend>{% csrf_token %}
+            {{ form|bootstrap }}
+            <div class="form-group">
+              <button type="submit" name="update_teacher" class="btn btn-primary">UPDATE</button>
+              <button type="submit" name="delete_teacher" class="btn btn-primary">DELETE TEACHER</button>
+            </div>
+        </form>
+{% endblock body%}
