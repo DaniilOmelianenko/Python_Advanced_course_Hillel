@@ -1,0 +1,17 @@
+<h1>TEACHERS_FILTERING</h1>
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+    </tr>
+    {% for teacher in teachers %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{teacher.first_name}}</td>
+            <td>{{teacher.last_name}}</td>
+            <td>{{teacher.age}}</td>
+        </tr>
+    {% endfor %}
+</table>
