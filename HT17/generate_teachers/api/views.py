@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 # from rest_framework.permissions import IsAuthenticated
-from Api.serializers import GroupSerializer, \
+from api.serializers import GroupSerializer, \
     StudentSerializer, TeacherSerializer
 
 from core.models import Group, Student, Teacher

@@ -149,8 +149,8 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-# CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
+# CELERY_BROKER_URL = 'amqp://localhost'
 
 CELERY_BEAT_SCHEDULE = {
     'delete-logs': {
@@ -184,7 +184,35 @@ REST_FRAMEWORK = {
     ]
 }
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+# try:                                 # for AWS
+#     from .local_settings import *
+# except ImportError:
+#     pass
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_FILE_PATH = 'gt-sessions'  # sessions folder on project
+SESSION_COOKIE_NAME = 'BlueRam'  # session name
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # session will death after browser closing  # noqa
+SESSION_COOKIE_AGE = 120
+
+# ---------------- File-Cache----------------------------
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': 'project_cache',  # cache folder on project
+#         'TIMEOUT': 15,  # cache life-time
+#         'OPTIONS': {
+#             'MAX_ENTRIES': 500  # max count of cache files
+#         }
+#     }
+# }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'memcached:11211',  # for local: 127.0.0.1:112211
+        # 'OPTIONS': {
+        #     'server_max_value_length': 1024 * 1024 * 2,
+        # }
+    }
+}

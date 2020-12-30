@@ -22,28 +22,37 @@ from django.db.models.aggregates import Avg, Count, Max, Min
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, FormView, UpdateView
 from django.views.generic.base import TemplateView, View
 
 
+@method_decorator(cache_page(10), 'get')
 class IndexView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self, *args, **kwargs):
+
+        # self.request.session['refresh_count'] = self.request.session.get('refresh_count', 0) + 1  # noqa
+
         context = super(IndexView, self).get_context_data(*args, **kwargs)
 
         context['inputted_list'] = self.request.GET.get('inputted_list', '')
         context['inputted_string'] = self.request.GET.get(
             'inputted_string', ''
         )
+        # context['refresh_count'] = self.request.session['refresh_count']
 
         return context
 
 
+@method_decorator(cache_page(20), 'get')
 class StudentsView(TemplateView):
     template_name = "students.html"
 
     def get_context_data(self, **kwargs):
+        # self.request.session['refresh_count'] = self.request.session.get('refresh_count', 0) + 1  # noqa
         students = Student.objects.all().select_related()
 
         context = {'students': students
@@ -59,13 +68,16 @@ class StudentsView(TemplateView):
                 Q(phone__contains=self.request.GET['query'])
             )
             context['students'] = students
+        # context['refresh_count'] = self.request.session['refresh_count']
         return context
 
 
+@method_decorator(cache_page(5), 'get')
 class TeachersView(TemplateView):
     template_name = "teachers.html"
 
     def get_context_data(self, **kwargs):
+        # self.request.session['refresh_count'] = self.request.session.get('refresh_count', 0) + 1  # noqa
         teachers = Teacher.objects.all().select_related()
 
         context = {
@@ -80,6 +92,7 @@ class TeachersView(TemplateView):
                 Q(age__contains=self.request.GET['query'])
             )
             context['teachers'] = teachers
+        # context['refresh_count'] = self.request.session['refresh_count']
         return context
 
 

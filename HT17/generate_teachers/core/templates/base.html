@@ -13,7 +13,10 @@
             <a class="py-2 d-none d-md-inline-block" href="{% url 'students:students' %}">STUDENTS</a>
             <a class="py-2 d-none d-md-inline-block" href="{% url 'students:contact_us' %}">CONTACT US</a>
             <a class="py-2 d-none d-md-inline-block" href="{% url 'students:registration' %}">REGISTER</a>
-            <a class="py-2 d-none d-md-inline-block" href="api-auth/login/">API</a>
+            <a class="py-2 d-none d-md-inline-block" href="/api-auth/login/">API</a>
+        </div>
+        <div class="container">
+            <h2>{{ refresh_count }}</h2>
         </div>
         <div class="container">
             {% block body %}default data{% endblock body %}

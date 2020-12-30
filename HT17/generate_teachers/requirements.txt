@@ -74,3 +74,4 @@ WTForms-Alchemy==0.17.0
 WTForms-Components==0.10.4
 psycopg2-binary==2.8.*
 gunicorn
+python-memcached

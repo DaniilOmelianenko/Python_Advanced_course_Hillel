@@ -6,24 +6,26 @@ services:
 #      dockerfile: Dockerfile
     build: .
     ports:
-      - 8000:8080
-    command: bash -c "python3 manage.py collectstatic --no-imput && python3 manage.py migrate && gunicorn --workers=2 -b=127.0.0.1:8080 generate_teachers.wsgi"
+      - 8080:8000
+#      - 8000:8080 # for AWS
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+#    command: bash -c "python3 manage.py collectstatic --no-imput && python3 manage.py migrate && gunicorn --workers=2 -b=127.0.0.1:8080 generate_teachers.wsgi"  # for AWS
     depends_on:
       - db
     volumes:
       - .:/myfirstdockerapp
-      - /home/ubuntu/test/static:/static
-    .env_file:
-      - .env
+#      - /home/ubuntu/test/static:/static # for AWS
+#    .env_file:
+#      - .env
 
   db:
     image: postgres
-    env_file:
-      - .env
-#    environment:
-#      - POSTGRES_PASSWORD=admin
-#      - POSTGRES_USER=admin
-#      - POSTGRES_DB=admin_db
+#    env_file: # for AWS
+#      - .env
+    environment:  # comment for run on AWS
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=admin_db
 
   rabbitmq:
     image: rabbitmq
@@ -34,7 +36,6 @@ services:
       - 15672:15672
 
   celery:
-#    image: celery:3.1.25
     build: .
     command: bash -c "celery -A generate_teachers worker -l info -B"
     volumes:
@@ -43,5 +44,11 @@ services:
       - web
       - rabbitmq
     working_dir: /myfirstdockerapp
-#    ports:
-#      - 5555:5555
+
+  memcached:
+    image: memcached
+    ports:
+      - 11211:11211
+    entrypoint:
+      - memcached
+      - -m 64
