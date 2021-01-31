@@ -1,0 +1,41 @@
+.left-bar {
+    background-color: blue;
+    color: white;
+    padding: 100px 20px 20px 20px;
+    text-align: center;
+}
+.mt15 {
+    margin-top: 15px;
+}
+
+textarea, .mybet {
+    width: 100%
+}
+
+.trade-window {
+    height: 45%;
+    border-radius: 8px;
+    border: 2px solid green;
+    margin-bottom: 10px;
+    padding: 3px;
+    text-align: left
+}
+
+.bet-area {
+    height: 5%;
+    border-radius: 8px;
+    border: 2px solid green;
+    margin-bottom: 10px;
+}
+
+.best-bet {
+    background-color: black;
+    color: white;
+    padding: 20px 20px;
+    height: 10%;
+    border-radius: 8px;
+    border: 5px solid red;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: center
+}

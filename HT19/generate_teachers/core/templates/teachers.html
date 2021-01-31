@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block body%}
+    <h1>TEACHERS</h1>
+<!--    <a class="py-2 d-none d-md-inline-block" href="{% url 'students:teachers_create' %}">ADD TEACHER</a>-->
+    <div class="col-md-12">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <input class="form-control" type="search" name="query" value="{{query}}">
+                </div>
+                <div class="col-md-9">
+                    <input type="submit" class="btn btn-primary" value="SEARCH">
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <tr>
+            <th>#</th>
+<!--            <th>ID</th>-->
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th></th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+<!--                <td>{{teacher.id}}</td>-->
+                <td>{{teacher.first_name}}</td>
+                <td>{{teacher.last_name}}</td>
+                <td>{{teacher.age}}</td>
+                <td>
+                    <table class="table">
+                        <tr>
+                            <th>Группы</th>
+                            <th>Студенты</th>
+                        </tr>
+                        {% for group in teacher.teacher_groups.all %}
+                            <tr>
+                                <td>{{group.title}}</td>
+                                <td>
+                                    {% for student in group.students.all %}
+                                    {{student.firstname}} {{student.lastname}}<br>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+<!--                <td>-->
+<!--                    <a class="btn btn-primary" href="{% url 'students:teacher_update' teacher.id %}">UPDATE</a>-->
+<!--                </td>-->
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body%}

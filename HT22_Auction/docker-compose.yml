@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123qwe
+
+  express:
+    image: mongo-express
+    ports:
+      - 8090:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123qwe
+    depends_on:
+      - mongo
