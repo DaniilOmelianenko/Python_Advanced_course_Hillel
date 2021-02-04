@@ -3,19 +3,17 @@
 # торги
 # websocket connection
 import aiohttp_jinja2
-from aiohttp.web import HTTPFound, View, Response, WebSocketResponse
+from aiohttp.web import HTTPFound, View, Response, WebSocketResponse, Response, json_response
 from aiohttp_session import get_session
-from forms import RegisterForm
+from forms import LoginForm, RegisterForm
 
 
-class UserBet(View):
+class Main(View):
 
-    @aiohttp_jinja2.template('userbet.html')
+    @aiohttp_jinja2.template('main.html')
     async def get(self):
-        session = await get_session(self.request)
-        if 'username' in session and session['username']:
-            raise HTTPFound('/trade')
-        return {}
+        lots = await self.request.app.db['lots'].find().to_list(length=9999)
+        return {'lots': lots}
 
     async def post(self):
         data = await self.request.post()
@@ -31,26 +29,49 @@ class Register(View):
     @aiohttp_jinja2.template('register.html')
     async def get(self):
         return {
-            'form': RegisterForm()
+            'form': RegisterForm(db=self.request.app.sync_db),
+            'redirect': False
         }
 
     @aiohttp_jinja2.template('register.html')
     async def post(self):
-        form = RegisterForm(formdata=await self.request.post())
+        form = RegisterForm(
+            formdata=await self.request.post(),
+            db=self.request.app.sync_db
+        )
         if form.validate():
             user_id = await form.save(self.request.app.db)
             session = await get_session(self.request)
             session['user_id'] = user_id
-            return HTTPFound('/trade')
+            return {'redirect': True, 'form': form}
+            # return HTTPFound('/trade')
         return {
-            'form': form
+            'form': form,
+            'redirect': False
         }
 
 
 class Login(View):
     @aiohttp_jinja2.template('login.html')
     async def get(self):
-        return {}
+        return {
+            'form': LoginForm(db=self.request.app.sync_db)
+        }
+
+    @aiohttp_jinja2.template('login.html')
+    async def post(self):
+        form = LoginForm(
+            formdata=await self.request.post(),
+            db=self.request.app.sync_db
+        )
+        if form.validate():
+            session = await get_session(self.request)
+            session['user_id'] = form.user_id
+            return {'redirect': True, 'form': form}
+        return {
+            'form': form,
+            'redirect': False
+        }
 
 
 class Trade(View):
@@ -66,6 +87,18 @@ class Trade(View):
         session = await get_session(self.request)
         session['username'] = data['username']
         return {'username': session['username']}
+
+
+class Lot(View):
+    async def post(self):
+        data = await self.request.json()
+        result = await self.request.app.db['lots'].insert_one({
+            'name': data['name'],
+            'price': data['price'],
+        })
+        return json_response({
+            'id': str(result.inserted_id)
+        })
 
 
 class WebSocketView(View):

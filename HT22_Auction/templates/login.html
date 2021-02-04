@@ -1,5 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-{% endblock content %}
+{% if redirect %}
+    <script>
+        window.location.href = '/';
+    </script>
+{% endif %}
+<form method="post">
+    <div class="form-group">
+        <label for="username">PROVIDE USER NAME:</label>
+        {{form.username(class_='form-control')}}
+    </div>
+    <div class="form-group">
+        <label for="password">PASSWORD</label>
+        {{form.password(class_='form-control')}}
+    </div>
+    <button type="submit" class="btn btn-primary">LOGIN</button>
+</form>
+{% endblock content %}%}

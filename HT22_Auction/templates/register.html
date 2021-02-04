@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if redirect %}
+    <script>
+        window.location.href = '/';
+    </script>
+{% endif %}
 <form method="post">
     <div class="form-group">
         <label for="username">PROVIDE USER NAME:</label>
