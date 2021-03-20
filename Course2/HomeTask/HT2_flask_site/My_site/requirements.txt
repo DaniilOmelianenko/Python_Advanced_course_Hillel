@@ -20,7 +20,7 @@ httplib2==0.18.1
 idna==2.10
 itsdangerous==1.1.0
 jeepney==0.4.3
-Jinja2==2.11.2
+Jinja2==2.11.3
 keyring==21.4.0
 language-selector==0.1
 launchpadlib==1.10.13
