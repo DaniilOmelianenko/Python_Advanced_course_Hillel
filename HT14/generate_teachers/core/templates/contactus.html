@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block body%}
+            <form role="form" method="post">
+                <legend>CONTACT US</legend>{% csrf_token %}
+                {{ form|bootstrap }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">SEND MAIL</button>
+                </div>
+            </form>
+{% endblock body%}

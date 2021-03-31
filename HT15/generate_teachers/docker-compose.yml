@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  web:
+#    build:
+#      dockerfile: Dockerfile
+    build: .
+    ports:
+      - 8000:8080
+    command: bash -c "python3 manage.py collectstatic --no-imput && python3 manage.py migrate && gunicorn --workers=2 -b=127.0.0.1:8080 generate_teachers.wsgi"
+    depends_on:
+      - db
+    volumes:
+      - .:/myfirstdockerapp
+      - /home/ubuntu/test/static:/static
+    .env_file:
+      - .env
+
+  db:
+    image: postgres
+    env_file:
+      - .env
+#    environment:
+#      - POSTGRES_PASSWORD=admin
+#      - POSTGRES_USER=admin
+#      - POSTGRES_DB=admin_db
+
+  rabbitmq:
+    image: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - 15672:15672
+
+  celery:
+#    image: celery:3.1.25
+    build: .
+    command: bash -c "celery -A generate_teachers worker -l info -B"
+    volumes:
+      - .:/myfirstdockerapp
+    depends_on:
+      - web
+      - rabbitmq
+    working_dir: /myfirstdockerapp
+#    ports:
+#      - 5555:5555

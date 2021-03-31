@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block body%}
+        <form role="form" method="post">
+            <legend>ADD GROUP</legend>{% csrf_token %}
+            {{ form|bootstrap }}
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">CREATE</button>
+            </div>
+        </form>
+{% endblock body%}

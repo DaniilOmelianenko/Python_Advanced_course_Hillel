@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    .red {
+        background-color: red !important;
+    }
+</style>
+{% endblock css %}
+
+{% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'js/jsapi.js' %}"></script>
+{% endblock js %}
+
+{% block body %}
+    <div id="blue-cube" class="blue-cube-class" style="width: 200px; height: 200; background: blue;">
+    </div>
+<!--    <button class="btn btn-primary" id="show_teachers_button">Show Teachers Info</button><br>-->
+<!--    <br>-->
+<!--    <ul id="teacher-list"></ul>-->
+
+<!--    <button class="btn btn-primary" id="create_teacher_button">Create Teacher</button><br>-->
+<!--    <input type="text" id="new_teacher_username" value="username*"><br>-->
+<!--    <input type="text" id="new_teacher_first_name" value="first_name*"><br>-->
+<!--    <input type="text" id="new_teacher_last_name" value="last_name*"><br>-->
+<!--    <input type="text" id="new_teacher_email" value="email"><br>-->
+<!--    <input type="text" id="new_teacher_age" value="age*"><br>-->
+<!--    <br>-->
+
+<!--    <button class="btn btn-primary" id="update_teachers_button">Update Teacher</button><br>-->
+<!--    <input type="text" id="update_teacher_id" value="id*"><br>-->
+<!--    <input type="text" id="update_teacher_username" value="username*"><br>-->
+<!--    <input type="text" id="update_teacher_first_name" value="first_name*"><br>-->
+<!--    <input type="text" id="update_teacher_last_name" value="last_name*"><br>-->
+<!--    <input type="text" id="update_teacher_email" value="email"><br>-->
+<!--    <input type="text" id="update_teacher_age" value="age*"><br>-->
+<!--    <br>-->
+
+<!--    <button class="btn btn-primary" id="delete_teachers_button">Delete Teacher</button><br>-->
+<!--    <input type="text" id="delete_teacher_id" value="id*"><br>-->
+<!--    <br>-->
+
+{% endblock body %}
