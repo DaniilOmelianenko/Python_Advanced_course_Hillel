@@ -21,3 +21,28 @@
     </div>
 </div>
 {% endblock content %}
+{% block usersidebar %}
+<h1>LOTS</h1>
+<div class="people">
+    <ul class="list-group list-group-flush">
+        <table>
+            <div class="col-md-12" id="lot_list">
+                {% for lot in lots %}
+                    <div>
+                        <tr>
+                            <th>
+                                <a href="/lot/{{lot._id}}" class="alert alert-warning" role="alert">{{lot.name}}: {{lot.price}}</a>
+                            </th>
+                            <th>
+                                <div class="alert alert-warning" role="alert">
+                                    price
+                                </div>
+                            </th>
+                        </tr>
+                    </div>
+                {% endfor %}
+            </div>
+        </table>
+    </ul>
+</div>
+{% endblock usersidebar %}

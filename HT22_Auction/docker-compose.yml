@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+#  web:
+#    build: .
+##    image:
+#    ports:
+#      - 8888:8888
+#    command: "python app.py"
+#    depends_on:
+#      - mongo
+
   mongo:
     image: mongo
     ports:

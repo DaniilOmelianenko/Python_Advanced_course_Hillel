@@ -1,11 +1,11 @@
-# регистрация/логин
-# список лотов
 # торги
 # websocket connection
+import json
 import aiohttp_jinja2
 from aiohttp.web import HTTPFound, View, Response, WebSocketResponse, Response, json_response
 from aiohttp_session import get_session
 from forms import LoginForm, RegisterForm
+from bson import ObjectId
 
 
 class Main(View):
@@ -78,12 +78,13 @@ class Trade(View):
 
     @aiohttp_jinja2.template('trade.html')
     async def get(self):
-        return {}
+        session = await get_session(self.request)
+        session['lot_id'] = self.request.match_info['lot_id']
+        return {'users': [person_name.username for person_name in self.request.app.wslist]}
 
     @aiohttp_jinja2.template('trade.html')
     async def post(self):
         data = await self.request.post()
-        # if 'username' in data:
         session = await get_session(self.request)
         session['username'] = data['username']
         return {'username': session['username']}
@@ -91,10 +92,13 @@ class Trade(View):
 
 class Lot(View):
     async def post(self):
+        session = await get_session(self.request)
+        user = await self.request.app.db['users'].find_one({'_id': ObjectId(session['user_id'])})
         data = await self.request.json()
         result = await self.request.app.db['lots'].insert_one({
             'name': data['name'],
             'price': data['price'],
+            'creator': user['username']
         })
         return json_response({
             'id': str(result.inserted_id)
@@ -105,11 +109,18 @@ class WebSocketView(View):
     async def get(self):
         ws = WebSocketResponse()
         await ws.prepare(self.request)
-        self.request.app.wslist.append(ws)
         session = await get_session(self.request)
+        user = await self.request.app.db['users'].find_one({'_id': ObjectId(session['user_id'])})
+        ws.username = user['username']
+        ws.lot_id = session['lot_id']
+        self.request.app.wslist.append(ws)
 
         async for bet in ws:
+            data = json.loads(bet.data)
             for websocket_connection in self.request.app.wslist:
-                await websocket_connection.send_str(f"{session['username']}: {bet.data}")
+                if websocket_connection.lot_id == data['lot_id']:
+                    await websocket_connection.send_str(f"{user['username']}: {data['my_bet_text']}")
 
         self.request.app.wslist.remove(ws)
+
+        return ws

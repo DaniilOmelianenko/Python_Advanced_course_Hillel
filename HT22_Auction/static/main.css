@@ -9,7 +9,15 @@
 }
 
 .mybet {
-    width: 100%
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.endlot {
+    width: 100%;
+    background-color: green;
+    color: black;
+    margin-bottom: 10px;
 }
 
 .trade-window {
@@ -28,7 +36,7 @@
     margin-bottom: 10px;
 }
 
-.best-bet {
+.current-bet {
     background-color: black;
     color: white;
     padding: 20px 20px;
@@ -44,4 +52,21 @@
     width: 100% !important;
     text-align: left !important;
     display: block;
+}
+
+.people {
+    background-color: brown;
+    width: 100%;
+    height: 60%;
+    color: black;
+    overflow: scroll;
+}
+
+.people-list {
+    background-color: brown;
+    color: black;
+}
+
+.menu {
+    color: red
 }

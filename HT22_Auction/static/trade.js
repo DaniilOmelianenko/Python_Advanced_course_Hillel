@@ -4,12 +4,16 @@ const ws = new WebSocket('ws://' + window.location.host + '/ws');
 ws.onmessage = function (event) {
     let bets_box = '<div class="alert alert-dark" role="alert">' + event.data + '</div>';
     $('.trade-window').append(bets_box);
+    $('.current-bet').clear;
+    $('.current-bet').append(event.data);
 };
 
 $('#make_bet').click(function () {
     const my_bet_text = $('#my_bet_text').val();
+    const splited_href = window.location.href.split('/');
+    const data = {lot_id: splited_href[splited_href.length - 1], my_bet_text: my_bet_text};
     $('#my_bet_text').val('');
-    ws.send(my_bet_text);
+    ws.send(JSON.stringify(data));
 });
 
 $('#add_lot-btn').click(function () {
@@ -25,7 +29,7 @@ $('#add_lot-btn').click(function () {
         }).then(async function (res) {
             const data = await res.json;
             let lot_box = '<a href="/lot/'+data.id+'" class="alert alert-warning" role="alert">'+lot_summary+': '+lot_price+'</a>';
-            $('#lot_list').append(lot_box);
+            $('#lot_list').prepend(lot_box);
             $('#lot_start_price').val('');
             $('#lot_summary').val('');
         });

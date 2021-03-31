@@ -1,0 +1,7 @@
+aiohttp
+aiohttp_jinja2
+aiohttp_session
+aioreloader
+motor
+pymongo
+WTForms

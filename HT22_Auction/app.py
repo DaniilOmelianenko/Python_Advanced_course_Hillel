@@ -1,11 +1,11 @@
 import aioreloader
 import aiohttp_jinja2
-from aiohttp_session import setup, SimpleCookieStorage, session_middleware
+from aiohttp_session import setup, SimpleCookieStorage
 from jinja2 import FileSystemLoader
 from aiohttp import web
 from pymongo import MongoClient
 import motor.motor_asyncio
-from aiohttp_session.cookie_storage import EncryptedCookieStorage
+
 
 from handlers import Login, Lot, Register, Trade, Main, WebSocketView
 
@@ -15,11 +15,13 @@ if __name__ == '__main__':
     app.wslist = []
     client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://root:123qwe@localhost:27017/')
     sync_client = MongoClient('mongodb://root:123qwe@localhost:27017/')
+
+    # for docker-compose:
+    # client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://root:123qwe@mongo:27017/')
+    # sync_client = MongoClient('mongodb://root:123qwe@mongo:27017/')
+
     app.db = client['auction_db']
     app.sync_db = sync_client['auction_db']
-    # setup(app, EncryptedCookieStorage(b'Thirty  two  length  bytes  key.'))
-    # setup(app, SimpleCookieStorage(b'Thirty  two  length  bytes  key.'))
-    # setup(app, SimpleCookieStorage(max_age=60*60*24*7))
 
     aiohttp_jinja2.setup(app, loader=FileSystemLoader('templates'))
     setup(app, SimpleCookieStorage())
